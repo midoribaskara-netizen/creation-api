@@ -5,6 +5,15 @@ const router = express.Router()
 
 router.get('/', async (req, res)  => {
     const recettes = await chercherRecettes()
+    const categorie = req.query.categorie
+
+    if(categorie) {
+        const recettesFiltres = recettes.filter((recette) => {
+            return recette.categorie === categorie
+        })
+
+        return res.json(recettesFiltres)
+    }
 
     res.json(recettes)
 })
