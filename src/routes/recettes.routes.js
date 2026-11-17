@@ -18,6 +18,14 @@ router.get('/', async (req, res)  => {
     res.json(recettes)
 })
 
+router.get('/random', async(req, res) => {
+    const recettes = await chercherRecettes()
+    const index = Math.floor(Math.random() * recettes.length)
+    const recette = recettes[index]
+
+    res.json(recette)
+})
+
 router.get('/:id', async (req, res) => {
     const recette = await chercherRecette(req.params.id)
 
