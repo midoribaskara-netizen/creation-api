@@ -15,6 +15,13 @@ router.get('/', async (req, res)  => {
         return res.json(recettesFiltres)
     }
 
+    const tri = req.query.tri
+    if (tri === 'nom') {
+        recettes.sort((a,b) => {
+            return a.nom.localeCompare(b.nom)
+        })
+    }
+
     res.json(recettes)
 })
 
