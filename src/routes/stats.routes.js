@@ -4,6 +4,8 @@ import { chercherRecette, chercherRecettes } from '../services/themealdb.service
 const router = express.Router()
 
 router.get('/', async (req, res) => {
+    //throw new Error('Test  erreur')
+
     const recettes = await chercherRecettes()
     const totalRecettes = recettes.length
 

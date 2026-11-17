@@ -21,6 +21,11 @@ router.get('/', async (req, res)  => {
 router.get('/:id', async (req, res) => {
     const recette = await chercherRecette(req.params.id)
 
+    if (!recette) {
+        return res.status(404).json({
+            message: 'Recette introuvable'
+        })
+    }
     res.json(recette)
 })
 
