@@ -4,24 +4,22 @@ import { chercherRecettes, chercherRecette } from '../services/themealdb.service
 const router = express.Router()
 
 router.get('/', async (req, res)  => {
-    const recettes = await chercherRecettes()
+    let recettes = await chercherRecettes()
     const categorie = req.query.categorie
     const nom = req.query.nom 
 
     if (nom) {
-        const recettesRecherches = recettes.filter((recette) => {
+        recettes = recettes.filter((recette) => {
             return recette.nom.toLowerCase().includes(nom.toLowerCase())
         })
 
-        return res.json(recettesRecherches)
     }
 
     if(categorie) {
-        const recettesFiltres = recettes.filter((recette) => {
+        recettes = recettes.filter((recette) => {
             return recette.categorie === categorie
         })
 
-        return res.json(recettesFiltres)
     }
 
     const tri = req.query.tri
