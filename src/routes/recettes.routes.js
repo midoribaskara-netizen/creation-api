@@ -6,6 +6,15 @@ const router = express.Router()
 router.get('/', async (req, res)  => {
     const recettes = await chercherRecettes()
     const categorie = req.query.categorie
+    const nom = req.query.nom 
+
+    if (nom) {
+        const recettesRecherches = recettes.filter((recette) => {
+            return recette.nom.toLowerCase().includes(nom.toLowerCase())
+        })
+
+        return res.json(recettesRecherches)
+    }
 
     if(categorie) {
         const recettesFiltres = recettes.filter((recette) => {
