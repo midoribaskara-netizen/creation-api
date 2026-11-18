@@ -33,6 +33,25 @@ router.get('/random', async(req, res) => {
     res.json(recette)
 })
 
+router.get('/comparer/:id1/:id2', async (req, res) => {
+    const id1 = req.params.id1
+    const id2 = req.params.id2
+
+    const recette1 = await chercherRecette(id1)
+    const recette2 = await chercherRecette(id2)
+
+    if(!recette1 || !recette2) {
+        return res.status(404).json({
+            message : 'une ou plusieurs recettes sont introuvables'
+        })
+    }
+
+    res.json({
+            recette1: recette1,
+            recette2: recette2
+        })
+})
+
 router.get('/:id', async (req, res) => {
     const recette = await chercherRecette(req.params.id)
 
