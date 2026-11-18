@@ -47,6 +47,13 @@ Exemples :
 - Mise en cache pour éviter de récupérer plusieurs fois les mêmes données.
 - Gestion des erreurs 404 et 500.
 
+## Gestion des erreurs
+
+Il est possible de tester les erreurs directement avec les routes :
+
+- **Erreur 404** : essayer de récupérer une recette avec un identifiant qui n'existe pas, par exemple `/api/recettes/00000`.
+- **Erreur 500** : elle apparaît lorsqu'une erreur interne se produit pendant le fonctionnement du serveur. Elle renvoie un message `Erreur interne du serveur`.
+
 ## Source
 
 Les recettes utilisées viennent de [TheMealDB](https://www.themealdb.com/api.php).
