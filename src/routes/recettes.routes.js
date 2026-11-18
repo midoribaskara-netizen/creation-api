@@ -5,6 +5,8 @@ const router = express.Router()
 
 router.get('/', async (req, res)  => {
     let recettes = await chercherRecettes()
+    
+    
     const categorie = req.query.categorie
     const nom = req.query.nom 
 
@@ -28,6 +30,41 @@ router.get('/', async (req, res)  => {
             return a.nom.localeCompare(b.nom)
         })
     }
+
+    if (tri === 'pays') {
+    const groupes = []
+
+    for (let i = 0; i < recettes.length; i++) {
+        const nomPays = recettes[i].pays || 'Non renseigné'
+        let trouve = false
+
+        for (let j = 0; j < groupes.length; j++) {
+            if (groupes[j].pays === nomPays) {
+                groupes[j].recettes.push(recettes[i])
+                trouve = true
+            }
+        }
+
+        if (!trouve) {
+            groupes.push({
+                pays: nomPays,
+                recettes: [recettes[i]]
+            })
+        }
+    }
+
+    groupes.sort((a, b) => {
+        return a.pays.localeCompare(b.pays)
+    })
+
+    for (let i = 0; i < groupes.length; i++) {
+        groupes[i].recettes.sort((a, b) => {
+            return a.nom.localeCompare(b.nom)
+        })
+    }
+
+    return res.json(groupes)
+}
 
     res.json(recettes)
 })

@@ -1,4 +1,5 @@
 const BASE = 'https://www.themealdb.com/api/json/v1/1'
+let cache = null
 
 function nettoyer(recette) {
     const ingredients = []
@@ -27,14 +28,31 @@ function nettoyer(recette) {
 }
 
 export async function chercherRecettes() {
-    const response = await fetch(BASE + '/search.php?s=chicken')
-    const donnees = await response.json()
-
-    if (!donnees.meals) {
-        return []
+    if (cache) {
+        return cache
     }
 
-    return donnees.meals.map(nettoyer)
+    const pays = ['Canada', 'India']
+    const recettes = []
+  
+    for (let i = 0; i < pays.length; i++) {
+        const response = await fetch(BASE + '/filter.php?a=' + pays[i])
+        const donnees = await response.json()
+
+
+            if(donnees.meals) {
+                for (let j = 0; j < donnees.meals.length; j++){
+                const responseRecette = await fetch(BASE + '/lookup.php?i=' + donnees.meals[j].idMeal)
+                const details = await responseRecette.json()
+
+                if (details.meals) {
+                    recettes.push(nettoyer(details.meals[0]))
+                }
+            }
+        }
+    }
+    cache = recettes
+    return cache
 }
 
 export async function chercherRecette(id) {

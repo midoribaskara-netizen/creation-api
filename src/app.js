@@ -8,6 +8,8 @@ app.use('/api/recettes', recettesRoutes)
 app.use('/api/stats', statsRoutes)
 
 app.use((err, req, res, next) => {
+
+    console.log(err)
     res.status(500).json({
         message: 'Erreur interne du serveur'
     })
